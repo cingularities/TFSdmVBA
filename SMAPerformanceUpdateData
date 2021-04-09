@@ -1,12 +1,14 @@
-Sub SolarProductionReportUpdateData()
+Sub SMAPerformanceUpdateData()
 '
-' SolarProductionReportUpdateData Macro
+' SMAPerformanceUpdateData Macro
+'
+
 '
     Cells.Select
     With ActiveSheet.QueryTables.Add(Connection:= _
-        "TEXT;\\tfs1\company\Data Monitoring\DM Code Files\SESMAPGCABOVEFILTERYEARLY.csv", Destination _
+        "TEXT;Z:\Data Monitoring\DM Code Files\CNDOWNLOAD\PlantList.csv", Destination _
         :=Range("$A$1"))
-        .Name = "SESMAPGCABOVEFILTERYEARLY."
+        .Name = "PlantList"
         .FieldNames = True
         .RowNumbers = False
         .FillAdjacentFormulas = False
@@ -31,39 +33,39 @@ Sub SolarProductionReportUpdateData()
         .TextFileTrailingMinusNumbers = True
         .Refresh BackgroundQuery:=False
     End With
-    Columns("A:A").Select
-    Selection.TextToColumns Destination:=Range("A1"), DataType:=xlDelimited, _
-        TextQualifier:=xlDoubleQuote, ConsecutiveDelimiter:=True, Tab:=True, _
-        Semicolon:=False, Comma:=True, Space:=True, Other:=False, FieldInfo:= _
-        Array(Array(1, 1), Array(2, 1), Array(3, 1), Array(4, 1), Array(5, 1), Array(6, 1), Array(7 _
-        , 1), Array(8, 1), Array(9, 1), Array(10, 1), Array(11, 1), Array(12, 1), Array(13, 1), Array _
-        (14, 1), Array(15, 1)), TrailingMinusNumbers:=True
-    Columns("J:J").Select
-    Selection.Copy
-    Columns("A:A").Select
-    ActiveSheet.Paste
-    Columns("C:M").Select
+    Range("L1").Select
+    ActiveCell.FormulaR1C1 = "YEAR"
+    Range("L2").Select
     Application.CutCopyMode = False
-    Columns("C:M").Cut Destination:=Columns("G:Q")
-    Columns("A:A").Select
-    Selection.TextToColumns Destination:=Range("A1"), DataType:=xlDelimited, _
-        TextQualifier:=xlDoubleQuote, ConsecutiveDelimiter:=True, Tab:=True, _
-        Semicolon:=False, Comma:=True, Space:=True, Other:=False, FieldInfo:= _
-        Array(Array(1, 1), Array(2, 1), Array(3, 1), Array(4, 1)), TrailingMinusNumbers:= _
-        True
-    Columns("G:Q").Select
-    Columns("G:Q").Cut Destination:=Columns("C:M")
-    Range("N1").Select
-    ActiveCell.FormulaR1C1 = "ABOVE"
-    Range("N1").Select
-    Selection.AutoFill Destination:=Range("N1:N880")
-    Range("N1:N880").Select
-    Range("A1").Select
-    ActiveCell.FormulaR1C1 = "lastname"
+    ActiveCell.FormulaR1C1 = "=RC[-3]*RC[-10]"
+    Range("L2").Select
+    Selection.AutoFill Destination:=Range("L2:L843")
+    Range("L2:L843").Select
+    Columns("L:L").Select
+    Selection.Copy
+    Columns("C:C").Select
+    Selection.PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks _
+        :=False, Transpose:=False
+    Columns("E:E").Select
+    Application.CutCopyMode = False
+    Selection.Copy
+    Columns("B:B").Select
+    Selection.PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks _
+        :=False, Transpose:=False
     Range("B1").Select
-    ActiveCell.FormulaR1C1 = "firstname"
-    Range("B3").Select
-    Range("C:C,L:L,M:M").Select
-    Range("M1").Activate
-    Selection.NumberFormat = "General"
+    Application.CutCopyMode = False
+    ActiveCell.FormulaR1C1 = "MONTH"
+    Range("A1").Select
+    ActiveCell.FormulaR1C1 = "PORTAL.NAME"
+    Range("C4").Select
+    Cells.Replace What:="#VALUE!", Replacement:="No data", LookAt:=xlPart, _
+        SearchOrder:=xlByRows, MatchCase:=False, SearchFormat:=False, _
+        ReplaceFormat:=False, FormulaVersion:=xlReplaceFormula2
+    Columns("D:L").Select
+    Selection.Delete Shift:=xlToLeft
+    ChDir "Z:\Data Monitoring\DM Code Files\FINAL"
+    ActiveWorkbook.SaveAs Filename:= _
+        "Z:\Data Monitoring\DM Code Files\FINAL\SMAPerformance.csv", FileFormat:= _
+        xlCSV, CreateBackup:=False
+
 End Sub
