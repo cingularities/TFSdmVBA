@@ -1,0 +1,50 @@
+Sub SMAUpdateData()
+'
+' SMAUpdateData Macro
+'
+
+'
+    Cells.Select
+    With ActiveSheet.QueryTables.Add(Connection:= _
+        "TEXT;\\tfs1\company\Data Monitoring\DM Code Files\CNDOWNLOAD\PlantList.csv", Destination _
+        :=Range("$A$1"))
+        .Name = "PlantList"
+        .FieldNames = True
+        .RowNumbers = False
+        .FillAdjacentFormulas = False
+        .PreserveFormatting = True
+        .RefreshOnFileOpen = False
+        .RefreshStyle = xlInsertDeleteCells
+        .SavePassword = False
+        .SaveData = True
+        .AdjustColumnWidth = True
+        .RefreshPeriod = 0
+        .TextFilePromptOnRefresh = False
+        .TextFilePlatform = 65001
+        .TextFileStartRow = 1
+        .TextFileParseType = xlDelimited
+        .TextFileTextQualifier = xlTextQualifierDoubleQuote
+        .TextFileConsecutiveDelimiter = False
+        .TextFileTabDelimiter = True
+        .TextFileSemicolonDelimiter = True
+        .TextFileCommaDelimiter = False
+        .TextFileSpaceDelimiter = False
+        .TextFileColumnDataTypes = Array(1, 1, 1, 1, 1, 1, 1, 1, 1)
+        .TextFileTrailingMinusNumbers = True
+        .Refresh BackgroundQuery:=False
+    End With
+    Range("A1").Select
+    ActiveCell.FormulaR1C1 = "PORTAL.NAME"
+    Range("D1").Select
+    ActiveCell.FormulaR1C1 = "YESTERDAY"
+    Columns("B:C").Select
+    Range("C1").Activate
+    Selection.Delete Shift:=xlToLeft
+    Columns("C:K").Select
+    Selection.Delete Shift:=xlToLeft
+    ActiveWindow.LargeScroll ToRight:=-1
+    ChDir "\\tfs1\company\Data Monitoring\DM Code Files\FINAL"
+    ActiveWorkbook.SaveAs Filename:= _
+        "\\tfs1\company\Data Monitoring\DM Code Files\FINAL\SMA.csv", FileFormat:=xlCSV, _
+        CreateBackup:=False
+End Sub
