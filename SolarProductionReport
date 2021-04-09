@@ -1,0 +1,34 @@
+Sub Primitive()
+Dim objWord As Object
+Dim ws As Worksheet
+Dim X As Integer
+    Set ws = ThisWorkbook.Sheets("Sheet1")
+    X = 2 ' First row to process
+    Do Until ws.Range("A" & X) = ""
+         Set objWord = CreateObject("Word.Application")
+         objWord.Visible = True
+         objWord.Documents.Add "Z:\Data Monitoring\DM Code Files\FINAL\SolarPerformanceReport.dotx" ' change as required
+         With objWord.ActiveDocument
+              .Bookmarks("firstname").Range.Text = ws.Range("B" & X).Value ' Note change to range
+              .Bookmarks("lastname").Range.Text = ws.Range("A" & X).Value ' Note change to range
+              .Bookmarks("address").Range.Text = ws.Range("D" & X).Value
+              .Bookmarks("city").Range.Text = ws.Range("E" & X).Value
+              .Bookmarks("state").Range.Text = ws.Range("F" & X).Value
+              .Bookmarks("postal").Range.Text = ws.Range("G" & X).Value
+              .Bookmarks("production").Range.Text = ws.Range("C" & X).Value
+              .Bookmarks("production2").Range.Text = ws.Range("C" & X).Value
+              .Bookmarks("estimate").Range.Text = ws.Range("L" & X).Value
+              .Bookmarks("estimate2").Range.Text = ws.Range("l" & X).Value
+              .Bookmarks("final").Range.Text = ws.Range("N" & X).Value
+         End With
+         Dim myfilename As String
+         Set ws = ThisWorkbook.Sheets("Sheet1")
+         myfilename = "Z:\Data Monitoring\DM Code Files\SolarProductionReports\" & ws.Range("A" & X) & " " & ws.Range("B" & X) & ".docx"
+         objWord.ActiveDocument.SaveAs myfilename
+         objWord.Quit
+         Set objWord = Nothing
+         X = X + 1
+Loop
+End Sub
+
+
