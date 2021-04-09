@@ -1,0 +1,53 @@
+Sub SMAPerformanceUpdateData()
+'
+' SMAPerformanceUpdateData Macro
+'
+
+'
+    Cells.Select
+    With ActiveSheet.QueryTables.Add(Connection:= _
+        "TEXT;Z:\Data Monitoring\DM Code Files\CNDOWNLOAD\PlantList.csv", Destination _
+        :=Range("$A$1"))
+        .Name = "PlantList"
+        .FieldNames = True
+        .RowNumbers = False
+        .FillAdjacentFormulas = False
+        .PreserveFormatting = True
+        .RefreshOnFileOpen = False
+        .RefreshStyle = xlInsertDeleteCells
+        .SavePassword = False
+        .SaveData = True
+        .AdjustColumnWidth = True
+        .RefreshPeriod = 0
+        .TextFilePromptOnRefresh = False
+        .TextFilePlatform = 65001
+        .TextFileStartRow = 1
+        .TextFileParseType = xlDelimited
+        .TextFileTextQualifier = xlTextQualifierDoubleQuote
+        .TextFileConsecutiveDelimiter = False
+        .TextFileTabDelimiter = True
+        .TextFileSemicolonDelimiter = True
+        .TextFileCommaDelimiter = False
+        .TextFileSpaceDelimiter = False
+        .TextFileColumnDataTypes = Array(1, 1, 1, 1, 1, 1, 1, 1, 1)
+        .TextFileTrailingMinusNumbers = True
+        .Refresh BackgroundQuery:=False
+    End With
+    Range("A1").Select
+    ActiveCell.FormulaR1C1 = "PORTAL.NAME"
+    Range("E1").Select
+    ActiveCell.FormulaR1C1 = "MONTH"
+    Range("I1").Select
+    ActiveCell.FormulaR1C1 = "YEAR"
+    Columns("B:D").Select
+    Selection.Delete Shift:=xlToLeft
+    Columns("C:E").Select
+    Selection.Delete Shift:=xlToLeft
+    Columns("D:E").Select
+    Selection.Delete Shift:=xlToLeft
+    Range("D7").Select
+    ChDir "Z:\Data Monitoring\DM Code Files\FINAL"
+    ActiveWorkbook.SaveAs Filename:= _
+        "Z:\Data Monitoring\DM Code Files\FINAL\SMAPerformance.csv", FileFormat:= _
+        xlCSV, CreateBackup:=False
+End Sub
