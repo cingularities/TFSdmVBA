@@ -1,0 +1,27 @@
+Sub Primitive()
+Dim objWord As Object
+Dim ws As Worksheet
+Dim X As Integer
+    Set ws = ThisWorkbook.Sheets("Sheet1")
+    X = 2 ' First row to process
+    Do Until ws.Range("A" & X) = ""
+         Set objWord = CreateObject("Word.Application")
+         objWord.Visible = True
+         objWord.Documents.Add "\\tfs1\company\Data Monitoring\DM Code Files\FINAL\NHLetterTemplate.dotx" ' change as required
+         With objWord.ActiveDocument
+              .Bookmarks("address").Range.Text = ws.Range("A" & X).Value ' Note change to range
+              .Bookmarks("date").Range.Text = ws.Range("B" & X).Value ' Note change to range
+              .Bookmarks("kW").Range.Text = ws.Range("C" & X).Value
+              .Bookmarks("system").Range.Text = ws.Range("D" & X).Value
+              .Bookmarks("monitoring").Range.Text = ws.Range("E" & X).Value
+         End With
+         Dim myfilename As String
+         Set ws = ThisWorkbook.Sheets("Sheet1")
+         myfilename = "Z:\Data Monitoring\DM Code Files\NH_Letters\" & ws.Range("A" & X) & ".docx"
+         objWord.ActiveDocument.SaveAs myfilename
+         objWord.Quit
+         Set objWord = Nothing
+         X = X + 1
+Loop
+End Sub
+
